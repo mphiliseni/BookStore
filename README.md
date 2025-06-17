@@ -2,6 +2,9 @@
 
 A RESTful API for managing a bookstore's inventory and sales.
 
+<img width="1440" alt="Screenshot 2025-06-17 at 19 19 21" src="https://github.com/user-attachments/assets/6a011bba-6089-4a7d-b6d0-14018215f918" />
+
+
 ## Features
 - Book management (CRUD operations)
 - Author management
