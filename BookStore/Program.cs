@@ -57,5 +57,31 @@ app.MapDelete("/bookstores/{id}", (int id) =>
     BookStoreDB.RemoveBookStore(id);
     return Results.Ok($"Bookstore with ID {id} deleted.");
 });
+// PATCH: Partial update (e.g., just update the name)
+app.MapPatch("/bookstores/{id}", (int id, string name) =>
+{
+    var store = BookStoreDB.GetBookStoreById(id);
+    if (store is null)
+        return Results.NotFound($"Bookstore with ID {id} not found.");
+
+    var updated = store with { Name = name };
+    BookStoreDB.UpdateBookStore(updated);
+    return Results.Ok(updated);
+});
+
+// HEAD: Check if a bookstore exists (no body)
+app.MapMethods("/bookstores/{id}", new[] { "HEAD" }, (int id) =>
+{
+    var exists = BookStoreDB.GetBookStoreById(id) is not null;
+    return exists ? Results.Ok() : Results.NotFound();
+});
+
+// OPTIONS: List allowed HTTP methods
+app.MapMethods("/bookstores", new[] { "OPTIONS" }, () =>
+{
+    const string allowed = "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD";
+    return Results.Text(allowed, "text/plain");
+});
+
 
 app.Run();
